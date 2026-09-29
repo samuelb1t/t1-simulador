@@ -1,0 +1,53 @@
+# Modelo do enunciado. O formato aceita distribuições uniformes e roteamento probabilístico.
+simulation:
+  random_limit: 100000
+  seed: 20260929
+  first_external_arrival: 2.0
+
+external_arrival:
+  queue: fila_1
+  distribution: uniform
+  min: 2.0
+  max: 4.0
+
+queues:
+  fila_1:
+    servers: 1
+    capacity: unlimited
+    service:
+      distribution: uniform
+      min: 1.0
+      max: 2.0
+  fila_2:
+    servers: 2
+    capacity: 5
+    service:
+      distribution: uniform
+      min: 4.0
+      max: 6.0
+  fila_3:
+    servers: 2
+    capacity: 10
+    service:
+      distribution: uniform
+      min: 5.0
+      max: 15.0
+
+routing:
+  fila_1:
+    - destination: fila_2
+      probability: 0.2
+    - destination: fila_3
+      probability: 0.8
+  fila_2:
+    - destination: fila_1
+      probability: 0.3
+    - destination: fila_3
+      probability: 0.5
+    - destination: exit
+      probability: 0.2
+  fila_3:
+    - destination: fila_2
+      probability: 0.7
+    - destination: exit
+      probability: 0.3
